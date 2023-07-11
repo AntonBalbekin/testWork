@@ -1,0 +1,9 @@
+<?
+$APPLICATION->IncludeComponent(
+	"anton:shop.viev", 
+	"", 
+	array(
+        'notebook'=>$arResult['VARIABLES']['NOTEBOOK']
+	),
+	false
+);
