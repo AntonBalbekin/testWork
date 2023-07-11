@@ -59,6 +59,3 @@ global $USER;
     );
     ?>
 </div>
-<?
-echo '<pre>';
-print_r($arParams);

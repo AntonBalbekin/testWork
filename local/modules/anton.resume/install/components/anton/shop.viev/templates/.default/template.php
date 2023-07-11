@@ -1,3 +1,4 @@
+<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <div class="mt-5">
     <div class="mt-3 mb-3">
         <h1><?=$arParams['notebook'];?></h1>
