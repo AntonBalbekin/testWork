@@ -155,11 +155,12 @@ class anton_resume extends CModule
         $context = Application::getInstance()->getContext();
         $request = $context->getRequest();
 
-        if($request["step"]<2){
+        if(!$request["step"]){
             $APPLICATION->IncludeAdminFile(Loc::getMessage('B_AN_INSTALL_TITLE'),  $_SERVER['DOCUMENT_ROOT']."/local/modules/anton.resume/install/step.php");
         }elseif($request["step"]==2){
+            ModuleManager::registerModule($this->MODULE_ID);
             if($request['delltable']=="on"){
-                ModuleManager::registerModule($this->MODULE_ID);
+                
                 $this->UnInstallDB();
                 if($USER->IsAdmin()){
                     if($this->isVersion() ){
@@ -212,7 +213,6 @@ class anton_resume extends CModule
         global $APPLICATION;
         $context = Application::getInstance()->getContext();
         $request = $context->getRequest();
-        
         if($request["stepUn"]<2){
             $APPLICATION->IncludeAdminFile(Loc::getMessage("B_AN_UNINSTALL_TITLE"),$_SERVER['DOCUMENT_ROOT']."/local/modules/anton.resume/install/unstep1.php");
         }elseif($request["stepUn"]==2){
