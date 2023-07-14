@@ -55,6 +55,7 @@ class Listcomponent extends CBitrixComponent implements Controllerable
     {
         $columns = [
             ['id' => 'NAME',    'name' => 'Производитель',  'sort' => 'NAME',   'default' => true],
+            ['id' => 'cnt',     'name' => 'Кол-во моделей',   'sort' => 'cnt',   'default' => true],
          ];
         return $columns;
     }
@@ -94,9 +95,22 @@ class Listcomponent extends CBitrixComponent implements Controllerable
     public function getManuf(){
         $arSort=$this->getArSort();
         $query=ManufacturerTable::query();
-        $query->setSelect(['NAME'])
+        $query->setSelect(['NAME','cnt'])
+        ->registerRuntimeField(
+            'MODELTABLE',
+                [
+                    'data_type'=>ModelTable::class,
+                    'reference'=>['this.ID'=>'ref.MANUFACTURER_ID']
+                ]
+            )
+        ->registerRuntimeField("cnt", array(
+                "data_type" => "integer",
+                "expression" => array("count(%s)", "MODELTABLE.MANUFACTURER_ID")
+                )
+            ) 
         ->setOffset($this->navParams->getOffset())
         ->setLimit($this->navParams->getLimit())
+        ->setGroup('ID')
         ->setCacheTtl(3600)
         ->cacheJoins(true)
         ->countTotal(true);
@@ -208,7 +222,7 @@ class Listcomponent extends CBitrixComponent implements Controllerable
                     'data'=>
                     [
                         'NAME'=> '<a href="'.$value['NAME'].'/">'.$value['NAME'].'</a>',
-         
+                        'cnt'=>$value['cnt']
                     ]
                 ];
             }
